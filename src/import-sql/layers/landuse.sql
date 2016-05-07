@@ -36,7 +36,8 @@ CREATE OR REPLACE VIEW landuse_z12 AS
 CREATE OR REPLACE VIEW landuse_z13toz14 AS
     SELECT id AS osm_id, geometry, type
     FROM osm_landuse_polygon
-    WHERE type NOT IN ('wetland', 'marsh', 'swamp', 'bog', 'mud', 'tidalflat', 'national_park', 'nature_reserve', 'protected_area');
+    WHERE type NOT IN ('wetland', 'marsh', 'swamp', 'bog', 'mud', 'tidalflat', 'national_park', 'nature_reserve', 'protected_area')
+      AND NOT (ST_Area(geometry) > 10000000000 AND type IN ('glacier', 'nature_reserve', 'national_park'));
 
 CREATE OR REPLACE VIEW landuse_layer AS (
     SELECT osm_id FROM landuse_z5toz6
